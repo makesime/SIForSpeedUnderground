@@ -53,6 +53,8 @@ namespace UnityStandardAssets.Vehicles.Car
 		public ParticleEmitter rightNitroFlame;
 		public float nitroValue;
 		public GameObject pickup;
+		public AudioClip collectSound;
+		public AudioClip nitroSound;
 
 		public bool Skidding { get; private set; }
 		public float BrakeInput { get; private set; }
@@ -376,19 +378,22 @@ namespace UnityStandardAssets.Vehicles.Car
 			
 		public void Nitro()
 		{
-			if(Input.GetButton ("Fire2"))
-			{
-				useNitro = true;
-			}
-			else
-			{
-				useNitro = false;
-			}
+//			if(Input.GetButton ("Fire2"))
+//			{
+//				useNitro = true;
+//
+//			}
+//			else
+//			{
+//				useNitro = false;
+//			}
 
-			if(useNitro && CurrentSpeed > 25 && nitroValue > 0)
+			if(Input.GetButton ("Fire2") && CurrentSpeed > 25 && nitroValue > 0)
 			{
 				leftNitroFlame.emit = true;
 				rightNitroFlame.emit = true;
+				AudioSource.PlayClipAtPoint(nitroSound, transform.position);
+
 				m_Rigidbody.velocity = 1.005f * m_Rigidbody.velocity;
 				nitroValue--;
 			}
@@ -397,6 +402,7 @@ namespace UnityStandardAssets.Vehicles.Car
 				leftNitroFlame.emit = false;
 				rightNitroFlame.emit = false;
 			}
+
 		}
 
 		public void UIManager()
@@ -413,6 +419,7 @@ namespace UnityStandardAssets.Vehicles.Car
 			if (other.gameObject.CompareTag ("NitroPickup"))
 			{
 				other.gameObject.SetActive (false);
+				AudioSource.PlayClipAtPoint(collectSound, transform.position);
 
 				if (nitroValue < 100) {
 					nitroValue += 10;
