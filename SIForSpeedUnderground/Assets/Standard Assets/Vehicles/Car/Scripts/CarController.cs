@@ -422,7 +422,7 @@ namespace UnityStandardAssets.Vehicles.Car
 				AudioSource.PlayClipAtPoint(collectSound, transform.position);
 
 				if (nitroValue < 100) {
-					nitroValue += 10;
+					nitroValue += 20;
 				} 
 				else if (nitroValue > 100) {
 					nitroValue = 100;
